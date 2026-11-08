@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#f4f8ff" />
+<title>Word Garden 🌱 — Weeks 1–7</title>
+<style>
+:root{font-family:ui-rounded,"Arial Rounded MT Bold",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#253754;background:#f4f8ff}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at top left,#e5f5ff,transparent 45%),radial-gradient(circle at bottom right,#fff0d8,transparent 42%),#f4f8ff}main{max-width:620px;padding:26px 18px 50px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.15em;color:#6c87a8}.logo{font-size:26px;font-weight:900;letter-spacing:-.05em;margin:4px 0}.badge{font-size:14px;font-weight:800;color:#4e719c;background:#fff;border:1px solid #dae7f5;padding:10px 14px;border-radius:100px;white-space:nowrap}.card{min-height:435px;background:#fff;border:1px solid #e1eaf4;border-radius:32px;box-shadow:0 18px 45px rgba(43,83,133,.09);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 18px 28px;position:relative}.emoji{font-size:clamp(110px,26vw,165px);line-height:1.4;user-select:none}.word{font-size:clamp(44px,10vw,68px);font-weight:900;letter-spacing:-.045em;text-align:center;overflow-wrap:anywhere;margin:6px 0 25px}.speak{display:flex;align-items:center;justify-content:center;gap:12px;border:0;border-radius:100px;background:#2866c6;color:white;padding:17px 26px;font-weight:900;font-size:18px;min-height:58px;cursor:pointer;box-shadow:0 8px 18px #2866c62b}.speak:active,.nav button:active,.action button:active{transform:scale(.98)}.speak svg{width:23px;height:23px}.hint{color:#8494a8;font-size:13px;text-align:center;margin:17px 0 0}.nav{display:flex;gap:12px;margin-top:19px}.nav button{flex:1;background:#fff;border:1px solid #dce6f1;border-radius:20px;min-height:62px;padding:13px;font-weight:800;font-size:17px;color:#365072;cursor:pointer}.nav .next{background:#253754;color:white;border-color:#253754}.action{display:flex;gap:12px;margin:16px 0}.action button{flex:1;min-height:55px;border-radius:17px;border:1px solid #dae7f5;font-size:15px;font-weight:800;cursor:pointer;background:#fff;color:#4e719c}.action .learned{background:#e9f9ed;border-color:#b9e8c5;color:#278248}.controls{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:20px 0 0}.controls label{font-size:14px;font-weight:700;color:#5c7595;display:flex;gap:7px;align-items:center}.controls select{font:inherit;background:white;color:#365072;border:1px solid #dce6f1;border-radius:12px;padding:8px}.shuffle{background:transparent;border:0;font-size:14px;font-weight:800;color:#2866c6;cursor:pointer;padding:9px}.progress{height:9px;border-radius:99px;background:#dce8f7;overflow:hidden;margin:10px 0}.progress div{height:100%;background:#69c89b;transition:width .2s}.stats{display:flex;justify-content:space-between;color:#607c9b;font-weight:700;font-size:13px}.note{color:#8999ad;text-align:center;font-size:12px;margin-top:24px;line-height:1.6}button:focus-visible,select:focus-visible{outline:3px solid #f5b85c;outline-offset:4px}@media(max-width:390px){.card{min-height:390px}.word{font-size:44px}.nav button{font-size:15px}}
+</style>
+</head>
+<body>
+<main>
+  <header class="top"><div><div class="eyebrow">LEARN · LISTEN · REMEMBER</div><h1 class="logo">Word Garden 🌱</h1></div><div class="badge" id="counter">1 / 139</div></header>
+  <section class="card" aria-label="Vocabulary flashcard"><div class="emoji" id="emoji" aria-hidden="true">🍎</div><div class="word" id="word">Apple</div><button class="speak" id="speak" type="button" aria-label="Hear the word"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 5-6 4H2v6h3l6 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg> Listen</button><p class="hint" id="hint">Tap to hear the word</p></section>
+  <nav class="nav" aria-label="Flashcard navigation"><button id="prev" type="button">← Previous</button><button class="next" id="next" type="button">Next →</button></nav>
+  <div class="action"><button id="practice" type="button">🔁 Practice again</button><button class="learned" id="know" type="button">⭐ I know it!</button></div>
+  <div class="controls"><label>Practice <select id="mode" aria-label="Practice mode"><option value="all">All words</option><option value="review">Review words</option><option value="new">Not learned yet</option></select></label><button class="shuffle" id="shuffle" type="button">🔀 Shuffle</button></div>
+  <div class="progress" role="progressbar" aria-label="Words learned" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div id="progressFill"></div></div><div class="stats"><span id="learnedCount">0 words learned</span><span id="reviewCount">0 to review</span></div>
+  <p class="note">Works offline after saving this file. Uses your browser's built-in English speech. Progress is saved on this device.</p>
+</main>
+<script>
+const WORDS=[
+ {
+  "emoji": "⏭️",
+  "word": "then",
+  "week": "Week 1",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "👉",
+  "word": "that",
+  "week": "Week 1",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "💬",
+  "word": "chat",
+  "week": "Week 1",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🙂",
+  "word": "chin",
+  "week": "Week 1",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "👇",
+  "word": "this",
+  "week": "Week 1",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🔪",
+  "word": "chop",
+  "week": "Week 1",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "⛓️",
+  "word": "chain",
+  "week": "Week 1",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🏃",
+  "word": "chase",
+  "week": "Week 1",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "👥",
+  "word": "these",
+  "week": "Week 1",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "👈",
+  "word": "those",
+  "week": "Week 1",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🎈",
+  "word": "balloon",
+  "week": "Week 1",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🧺",
+  "word": "basket",
+  "week": "Week 1",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🐻",
+  "word": "bear",
+  "week": "Week 1",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🚫",
+  "word": "can't",
+  "week": "Week 1",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "💡",
+  "word": "knew",
+  "week": "Week 1",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🏞️",
+  "word": "park",
+  "week": "Week 1",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "📍",
+  "word": "place",
+  "week": "Week 1",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🎭",
+  "word": "show",
+  "week": "Week 1",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "⛺",
+  "word": "tent",
+  "week": "Week 1",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🦆",
+  "word": "quack",
+  "week": "Week 2",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🪙",
+  "word": "quarter",
+  "week": "Week 2",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "👑",
+  "word": "queen",
+  "week": "Week 2",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "❓",
+  "word": "question",
+  "week": "Week 2",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🛏️",
+  "word": "quilt",
+  "week": "Week 2",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🚢",
+  "word": "ship",
+  "week": "Week 2",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "⏰",
+  "word": "when",
+  "week": "Week 2",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🔷",
+  "word": "shape",
+  "week": "Week 2",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🐋",
+  "word": "whale",
+  "week": "Week 2",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🏪",
+  "word": "shop",
+  "week": "Week 2",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🤔",
+  "word": "which",
+  "week": "Week 2",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🦈",
+  "word": "shark",
+  "week": "Week 2",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🐚",
+  "word": "shell",
+  "week": "Week 2",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "📍",
+  "word": "where",
+  "week": "Week 2",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "❔",
+  "word": "why",
+  "week": "Week 2",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🛏️",
+  "word": "bed",
+  "week": "Week 2",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "📣",
+  "word": "call out",
+  "week": "Week 2",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🧣",
+  "word": "cover",
+  "week": "Week 2",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "👐",
+  "word": "let go",
+  "week": "Week 2",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🚪",
+  "word": "room",
+  "week": "Week 2",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🔝",
+  "word": "top",
+  "week": "Week 2",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "⛸️",
+  "word": "skate",
+  "week": "Week 3",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🦘",
+  "word": "skip",
+  "week": "Week 3",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🛷",
+  "word": "sled",
+  "week": "Week 3",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🛝",
+  "word": "slide",
+  "week": "Week 3",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "👃",
+  "word": "smell",
+  "week": "Week 3",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "😊",
+  "word": "smile",
+  "week": "Week 3",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "💨",
+  "word": "smoke",
+  "week": "Week 3",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🌱",
+  "word": "stem",
+  "week": "Week 3",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "👣",
+  "word": "step",
+  "week": "Week 3",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🪨",
+  "word": "stone",
+  "week": "Week 3",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🥎",
+  "word": "throw",
+  "week": "Week 3",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🚫",
+  "word": "never",
+  "week": "Week 3",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "⚖️",
+  "word": "scale",
+  "week": "Week 4",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "😱",
+  "word": "scare",
+  "week": "Week 4",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🐍",
+  "word": "snake",
+  "week": "Week 4",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🫰",
+  "word": "snap",
+  "week": "Week 4",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "✂️",
+  "word": "snip",
+  "week": "Week 4",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🔤",
+  "word": "spell",
+  "week": "Week 4",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🥛",
+  "word": "spill",
+  "week": "Week 4",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🌀",
+  "word": "spin",
+  "week": "Week 4",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🗣️",
+  "word": "spoke",
+  "week": "Week 4",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🏊",
+  "word": "swim",
+  "week": "Week 4",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🌷",
+  "word": "may",
+  "week": "Week 4",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🧁",
+  "word": "bake",
+  "week": "Week 4",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🏷️",
+  "word": "name",
+  "week": "Week 4",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "☀️",
+  "word": "day",
+  "week": "Week 4",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🎁",
+  "word": "gave",
+  "week": "Week 4",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🛣️",
+  "word": "way",
+  "week": "Week 4",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🚶",
+  "word": "came",
+  "week": "Week 4",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🏺",
+  "word": "clay",
+  "week": "Week 4",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🧸",
+  "word": "play",
+  "week": "Week 4",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "✋",
+  "word": "take",
+  "week": "Week 4",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🌬️",
+  "word": "air",
+  "week": "Week 4",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "📦",
+  "word": "boxes",
+  "week": "Week 4",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "😭",
+  "word": "cried",
+  "week": "Week 4",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "⚖️",
+  "word": "even",
+  "week": "Week 4",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🗑️",
+  "word": "threw out",
+  "week": "Week 4",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🚩",
+  "word": "flag",
+  "week": "Week 5",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🔥",
+  "word": "flame",
+  "week": "Week 5",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "📏",
+  "word": "flat",
+  "week": "Week 5",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🤸",
+  "word": "flip",
+  "week": "Week 5",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🪈",
+  "word": "flute",
+  "week": "Week 5",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "✈️",
+  "word": "plane",
+  "week": "Week 5",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🍽️",
+  "word": "plate",
+  "week": "Week 5",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🔌",
+  "word": "plug",
+  "week": "Week 5",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🟣",
+  "word": "plum",
+  "week": "Week 5",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🐾",
+  "word": "animal",
+  "week": "Week 5",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🌑",
+  "word": "dark",
+  "week": "Week 5",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "👂",
+  "word": "hear",
+  "week": "Week 5",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🌟",
+  "word": "hope",
+  "week": "Week 5",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "💡",
+  "word": "light",
+  "week": "Week 5",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🔊",
+  "word": "sound",
+  "week": "Week 5",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🪤",
+  "word": "stuck",
+  "week": "Week 5",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "⏻",
+  "word": "turn off",
+  "week": "Week 5",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🗡️",
+  "word": "blade",
+  "week": "Week 6",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🐚",
+  "word": "clam",
+  "week": "Week 6",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "👏",
+  "word": "clap",
+  "week": "Week 6",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🏫",
+  "word": "class",
+  "week": "Week 6",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "📎",
+  "word": "clip",
+  "week": "Week 6",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "♣️",
+  "word": "club",
+  "week": "Week 6",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "😄",
+  "word": "glad",
+  "week": "Week 6",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🥛",
+  "word": "glass",
+  "week": "Week 6",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🌎",
+  "word": "globe",
+  "week": "Week 6",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🙈",
+  "word": "hide",
+  "week": "Week 6",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🚴",
+  "word": "ride",
+  "week": "Week 6",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🚲",
+  "word": "bike",
+  "week": "Week 6",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "❤️",
+  "word": "like",
+  "week": "Week 6",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🕒",
+  "word": "time",
+  "week": "Week 6",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🪁",
+  "word": "kite",
+  "week": "Week 6",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🪙",
+  "word": "dime",
+  "week": "Week 6",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "👌",
+  "word": "fine",
+  "week": "Week 6",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🙋",
+  "word": "mine",
+  "week": "Week 6",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "📐",
+  "word": "size",
+  "week": "Week 6",
+  "section": "Spelling"
+ },
+ {
+  "emoji": "🔓",
+  "word": "came off",
+  "week": "Week 6",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🚜",
+  "word": "farm",
+  "week": "Week 6",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🤝",
+  "word": "let's",
+  "week": "Week 6",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "📏",
+  "word": "long",
+  "week": "Week 6",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🧮",
+  "word": "much",
+  "week": "Week 6",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "☝️",
+  "word": "only",
+  "week": "Week 6",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "⌛",
+  "word": "right now",
+  "week": "Week 6",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🌠",
+  "word": "wish",
+  "week": "Week 6",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "👰",
+  "word": "bride",
+  "week": "Week 7",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🖼️",
+  "word": "frame",
+  "week": "Week 7",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🐸",
+  "word": "frog",
+  "week": "Week 7",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "✊",
+  "word": "grab",
+  "week": "Week 7",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "📝",
+  "word": "grade",
+  "week": "Week 7",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🍇",
+  "word": "grape",
+  "week": "Week 7",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🐄",
+  "word": "graze",
+  "week": "Week 7",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "🍖",
+  "word": "grill",
+  "week": "Week 7",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "😁",
+  "word": "grin",
+  "week": "Week 7",
+  "section": "Phonics"
+ },
+ {
+  "emoji": "💪",
+  "word": "arms",
+  "week": "Week 7",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🧒",
+  "word": "children",
+  "week": "Week 7",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🌎",
+  "word": "everything",
+  "week": "Week 7",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🤲",
+  "word": "hold",
+  "week": "Week 7",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🖊️",
+  "word": "pen",
+  "week": "Week 7",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🙏",
+  "word": "thank you",
+  "week": "Week 7",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "👥",
+  "word": "their",
+  "week": "Week 7",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🗣️",
+  "word": "told",
+  "week": "Week 7",
+  "section": "Reading Plus"
+ },
+ {
+  "emoji": "🚶",
+  "word": "walked by",
+  "week": "Week 7",
+  "section": "Reading Plus"
+ }
+];
+const KEY='word-garden-school-weeks1-7-progress';
+let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+const learned=new Set(Array.isArray(saved.learned)?saved.learned:[]),review=new Set(Array.isArray(saved.review)?saved.review:[]);
+let order=WORDS.map((_,i)=>i),position=0;
+const $=id=>document.getElementById(id);
+function persist(){try{localStorage.setItem(KEY,JSON.stringify({learned:[...learned],review:[...review]}))}catch(e){}}
+function filter(){let mode=$('mode').value;return order.filter(i=>mode==='all'||(mode==='review'?review.has(WORDS[i].word):!learned.has(WORDS[i].word)))}
+function render(){const items=filter();position=Math.min(position,Math.max(0,items.length-1));const current=items[position];if(current===undefined){$('emoji').textContent='🎉';$('word').textContent='All done!';$('counter').textContent='0 / 0';$('speak').disabled=true;$('hint').textContent='Try another practice mode.';}else{const w=WORDS[current];$('emoji').textContent=w.emoji;$('word').textContent=w.word;$('counter').textContent=`${position+1} / ${items.length}`;$('speak').disabled=false;$('hint').textContent=learned.has(w.word)?'⭐ Learned! Tap to listen again.':'Tap to hear the word';}$('know').disabled=current===undefined;$('practice').disabled=current===undefined;$('learnedCount').textContent=`${learned.size} words learned`;$('reviewCount').textContent=`${review.size} to review`;$('progressFill').style.width=`${learned.size/WORDS.length*100}%`;$('progress').setAttribute('aria-valuenow',String(Math.round(learned.size/WORDS.length*100)));}
+function current(){const items=filter();return items.length?WORDS[items[position]]:null}
+function advance(step){const n=filter().length;if(n){position=(position+step+n)%n;render()}}
+function speak(){const w=current();if(!w)return;if(!('speechSynthesis' in window)){ $('hint').textContent='Speech is not supported in this browser.';return;}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w.word);u.lang='en-US';u.rate=.82;u.pitch=1.02;const voices=window.speechSynthesis.getVoices();const english=voices.find(v=>v.lang.toLowerCase()==='en-us')||voices.find(v=>v.lang.toLowerCase().startsWith('en'));if(english)u.voice=english;window.speechSynthesis.speak(u)}
+$('speak').addEventListener('click',speak);$('next').addEventListener('click',()=>advance(1));$('prev').addEventListener('click',()=>advance(-1));
+$('know').addEventListener('click',()=>{const w=current();if(!w)return;learned.add(w.word);review.delete(w.word);persist();if($('mode').value!=='all')position=position%Math.max(1,filter().length);else advance(1);render()});
+$('practice').addEventListener('click',()=>{const w=current();if(!w)return;review.add(w.word);learned.delete(w.word);persist();advance(1);render()});
+$('mode').addEventListener('change',()=>{position=0;render()});
+$('shuffle').addEventListener('click',()=>{for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}position=0;render()});
+document.addEventListener('keydown',e=>{if(e.target.tagName==='SELECT'||e.altKey||e.ctrlKey||e.metaKey)return;if(e.key==='ArrowRight')advance(1);if(e.key==='ArrowLeft')advance(-1);if(e.key===' '){e.preventDefault();speak()}});
+render();
+</script>
+</body>
+</html>
