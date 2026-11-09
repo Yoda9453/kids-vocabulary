@@ -4,20 +4,27 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#f4f8ff" />
-<title>Word Garden 🌱 — Weeks 1–7</title>
+<title>Word Garden 🌱 — Two Learners</title>
 <style>
 :root{font-family:ui-rounded,"Arial Rounded MT Bold",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#253754;background:#f4f8ff}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at top left,#e5f5ff,transparent 45%),radial-gradient(circle at bottom right,#fff0d8,transparent 42%),#f4f8ff}main{max-width:620px;padding:26px 18px 50px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.15em;color:#6c87a8}.logo{font-size:26px;font-weight:900;letter-spacing:-.05em;margin:4px 0}.badge{font-size:14px;font-weight:800;color:#4e719c;background:#fff;border:1px solid #dae7f5;padding:10px 14px;border-radius:100px;white-space:nowrap}.card{min-height:435px;background:#fff;border:1px solid #e1eaf4;border-radius:32px;box-shadow:0 18px 45px rgba(43,83,133,.09);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 18px 28px;position:relative}.emoji{font-size:clamp(110px,26vw,165px);line-height:1.4;user-select:none}.word{font-size:clamp(44px,10vw,68px);font-weight:900;letter-spacing:-.045em;text-align:center;overflow-wrap:anywhere;margin:6px 0 25px}.speak{display:flex;align-items:center;justify-content:center;gap:12px;border:0;border-radius:100px;background:#2866c6;color:white;padding:17px 26px;font-weight:900;font-size:18px;min-height:58px;cursor:pointer;box-shadow:0 8px 18px #2866c62b}.speak:active,.nav button:active,.action button:active{transform:scale(.98)}.speak svg{width:23px;height:23px}.hint{color:#8494a8;font-size:13px;text-align:center;margin:17px 0 0}.nav{display:flex;gap:12px;margin-top:19px}.nav button{flex:1;background:#fff;border:1px solid #dce6f1;border-radius:20px;min-height:62px;padding:13px;font-weight:800;font-size:17px;color:#365072;cursor:pointer}.nav .next{background:#253754;color:white;border-color:#253754}.action{display:flex;gap:12px;margin:16px 0}.action button{flex:1;min-height:55px;border-radius:17px;border:1px solid #dae7f5;font-size:15px;font-weight:800;cursor:pointer;background:#fff;color:#4e719c}.action .learned{background:#e9f9ed;border-color:#b9e8c5;color:#278248}.controls{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:20px 0 0}.controls label{font-size:14px;font-weight:700;color:#5c7595;display:flex;gap:7px;align-items:center}.controls select{font:inherit;background:white;color:#365072;border:1px solid #dce6f1;border-radius:12px;padding:8px}.shuffle{background:transparent;border:0;font-size:14px;font-weight:800;color:#2866c6;cursor:pointer;padding:9px}.progress{height:9px;border-radius:99px;background:#dce8f7;overflow:hidden;margin:10px 0}.progress div{height:100%;background:#69c89b;transition:width .2s}.stats{display:flex;justify-content:space-between;color:#607c9b;font-weight:700;font-size:13px}.note{color:#8999ad;text-align:center;font-size:12px;margin-top:24px;line-height:1.6}button:focus-visible,select:focus-visible{outline:3px solid #f5b85c;outline-offset:4px}@media(max-width:390px){.card{min-height:390px}.word{font-size:44px}.nav button{font-size:15px}}
+.selectors{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#fff;border:1px solid #dae7f5;border-radius:22px;padding:15px;margin:0 0 18px}.selectors label{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:800;color:#5c7595}.selectors select{width:100%;min-width:0;font:inherit;font-size:16px;color:#253754;background:#f4f8ff;border:1px solid #dce6f1;border-radius:12px;padding:12px 8px}.selectors .full{grid-column:1/-1}.scope-note{grid-column:1/-1;font-size:12px;color:#71839a;font-weight:700}.selectors select:focus-visible{outline:3px solid #f5b85c;outline-offset:3px}@media(max-width:380px){.selectors{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <main>
   <header class="top"><div><div class="eyebrow">LEARN · LISTEN · REMEMBER</div><h1 class="logo">Word Garden 🌱</h1></div><div class="badge" id="counter">1 / 139</div></header>
+  <section class="selectors" aria-label="Choose learner and exam vocabulary">
+    <label>👤 Learner<select id="learner"><option value="child1">Learner 1</option><option value="child2">Learner 2</option></select></label>
+    <label>📅 Exam week<select id="week"><option value="all">All weeks (1–7)</option></select></label>
+    <label class="full">📚 Lesson type<select id="section"><option value="all">All lesson types</option><option value="Phonics">Phonics</option><option value="Spelling">Spelling</option><option value="Reading Plus">Reading Plus</option></select></label>
+    <div class="scope-note" id="scopeInfo" aria-live="polite">Choose your practice words above.</div>
+  </section>
   <section class="card" aria-label="Vocabulary flashcard"><div class="emoji" id="emoji" aria-hidden="true">🍎</div><div class="word" id="word">Apple</div><button class="speak" id="speak" type="button" aria-label="Hear the word"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 5-6 4H2v6h3l6 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg> Listen</button><p class="hint" id="hint">Tap to hear the word</p></section>
   <nav class="nav" aria-label="Flashcard navigation"><button id="prev" type="button">← Previous</button><button class="next" id="next" type="button">Next →</button></nav>
   <div class="action"><button id="practice" type="button">🔁 Practice again</button><button class="learned" id="know" type="button">⭐ I know it!</button></div>
   <div class="controls"><label>Practice <select id="mode" aria-label="Practice mode"><option value="all">All words</option><option value="review">Review words</option><option value="new">Not learned yet</option></select></label><button class="shuffle" id="shuffle" type="button">🔀 Shuffle</button></div>
   <div class="progress" role="progressbar" aria-label="Words learned" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div id="progressFill"></div></div><div class="stats"><span id="learnedCount">0 words learned</span><span id="reviewCount">0 to review</span></div>
-  <p class="note">Works offline after saving this file. Uses your browser's built-in English speech. Progress is saved on this device.</p>
+  <p class="note">Works offline after saving this file. Uses your browser's built-in English speech. Each learner has separate progress on this device.</p>
 </main>
 <script>
 const WORDS=[
@@ -856,24 +863,108 @@ const WORDS=[
   "section": "Reading Plus"
  }
 ];
-const KEY='word-garden-school-weeks1-7-progress';
-let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
-const learned=new Set(Array.isArray(saved.learned)?saved.learned:[]),review=new Set(Array.isArray(saved.review)?saved.review:[]);
-let order=WORDS.map((_,i)=>i),position=0;
+const LEGACY_KEY='word-garden-school-weeks1-7-progress';
+const STORE_PREFIX='word-garden-profile-v2-';
 const $=id=>document.getElementById(id);
-function persist(){try{localStorage.setItem(KEY,JSON.stringify({learned:[...learned],review:[...review]}))}catch(e){}}
-function filter(){let mode=$('mode').value;return order.filter(i=>mode==='all'||(mode==='review'?review.has(WORDS[i].word):!learned.has(WORDS[i].word)))}
-function render(){const items=filter();position=Math.min(position,Math.max(0,items.length-1));const current=items[position];if(current===undefined){$('emoji').textContent='🎉';$('word').textContent='All done!';$('counter').textContent='0 / 0';$('speak').disabled=true;$('hint').textContent='Try another practice mode.';}else{const w=WORDS[current];$('emoji').textContent=w.emoji;$('word').textContent=w.word;$('counter').textContent=`${position+1} / ${items.length}`;$('speak').disabled=false;$('hint').textContent=learned.has(w.word)?'⭐ Learned! Tap to listen again.':'Tap to hear the word';}$('know').disabled=current===undefined;$('practice').disabled=current===undefined;$('learnedCount').textContent=`${learned.size} words learned`;$('reviewCount').textContent=`${review.size} to review`;$('progressFill').style.width=`${learned.size/WORDS.length*100}%`;$('progress').setAttribute('aria-valuenow',String(Math.round(learned.size/WORDS.length*100)));}
+const learnerSelect=$('learner'),weekSelect=$('week'),sectionSelect=$('section');
+for(let n=1;n<=7;n++){const o=document.createElement('option');o.value='Week '+n;o.textContent='Week '+n;weekSelect.appendChild(o);}
+let profile='child1',learned=new Set(),review=new Set();
+let order=WORDS.map((_,i)=>i),position=0;
+function profileKey(id){return STORE_PREFIX+id}
+function readStore(key){try{return JSON.parse(localStorage.getItem(key)||'{}')||{}}catch(e){return {}}}
+function writeStore(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch(e){}}
+function loadProfile(id){
+  profile=id;
+  let saved=readStore(profileKey(id));
+  // Carry old single-user progress into Learner 1 only, exactly once.
+  if(id==='child1'&&localStorage.getItem(profileKey(id))===null){
+    saved=readStore(LEGACY_KEY);
+    writeStore(profileKey(id),saved);
+  }
+  learned=new Set(Array.isArray(saved.learned)?saved.learned:[]);
+  review=new Set(Array.isArray(saved.review)?saved.review:[]);
+}
+function persist(){writeStore(profileKey(profile),{learned:[...learned],review:[...review]})}
+function scopeWords(){return WORDS.filter(w=>(weekSelect.value==='all'||w.week===weekSelect.value)&&(sectionSelect.value==='all'||w.section===sectionSelect.value))}
+function filter(){
+  const mode=$('mode').value;
+  return order.filter(i=>{
+    const w=WORDS[i];
+    return (weekSelect.value==='all'||w.week===weekSelect.value)
+      &&(sectionSelect.value==='all'||w.section===sectionSelect.value)
+      &&(mode==='all'||(mode==='review'?review.has(w.word):!learned.has(w.word)));
+  });
+}
+function render(){
+  const scope=scopeWords(),items=filter();
+  position=Math.min(position,Math.max(0,items.length-1));
+  const current=items[position], total=scope.length;
+  $('scopeInfo').textContent=learnerSelect.options[learnerSelect.selectedIndex].text+' · '+total+' words in this exam range';
+  if(current===undefined){
+    $('emoji').textContent=total?'🎉':'📚';
+    $('word').textContent=total?'All done!':'No words here';
+    $('counter').textContent='0 / 0';$('speak').disabled=true;
+    $('hint').textContent=total?'Try another practice mode.':'Try another week or lesson type.';
+  }else{
+    const w=WORDS[current];
+    $('emoji').textContent=w.emoji;$('word').textContent=w.word;
+    $('counter').textContent=`${position+1} / ${items.length}`;$('speak').disabled=false;
+    $('hint').textContent=learned.has(w.word)?'⭐ Learned! Tap to listen again.':'Tap to hear the word';
+  }
+  $('know').disabled=current===undefined;$('practice').disabled=current===undefined;
+  const scopedLearned=scope.filter(w=>learned.has(w.word)).length;
+  const scopedReview=scope.filter(w=>review.has(w.word)).length;
+  $('learnedCount').textContent=`${scopedLearned} / ${total} words learned`;
+  $('reviewCount').textContent=`${scopedReview} to review`;
+  const pct=total?Math.round(scopedLearned/total*100):0;
+  $('progressFill').style.width=pct+'%';
+  $('progress').setAttribute('aria-valuenow',String(pct));
+}
 function current(){const items=filter();return items.length?WORDS[items[position]]:null}
 function advance(step){const n=filter().length;if(n){position=(position+step+n)%n;render()}}
-function speak(){const w=current();if(!w)return;if(!('speechSynthesis' in window)){ $('hint').textContent='Speech is not supported in this browser.';return;}window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w.word);u.lang='en-US';u.rate=.82;u.pitch=1.02;const voices=window.speechSynthesis.getVoices();const english=voices.find(v=>v.lang.toLowerCase()==='en-us')||voices.find(v=>v.lang.toLowerCase().startsWith('en'));if(english)u.voice=english;window.speechSynthesis.speak(u)}
-$('speak').addEventListener('click',speak);$('next').addEventListener('click',()=>advance(1));$('prev').addEventListener('click',()=>advance(-1));
-$('know').addEventListener('click',()=>{const w=current();if(!w)return;learned.add(w.word);review.delete(w.word);persist();if($('mode').value!=='all')position=position%Math.max(1,filter().length);else advance(1);render()});
-$('practice').addEventListener('click',()=>{const w=current();if(!w)return;review.add(w.word);learned.delete(w.word);persist();advance(1);render()});
-$('mode').addEventListener('change',()=>{position=0;render()});
-$('shuffle').addEventListener('click',()=>{for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}position=0;render()});
-document.addEventListener('keydown',e=>{if(e.target.tagName==='SELECT'||e.altKey||e.ctrlKey||e.metaKey)return;if(e.key==='ArrowRight')advance(1);if(e.key==='ArrowLeft')advance(-1);if(e.key===' '){e.preventDefault();speak()}});
-render();
+function speak(){
+  const w=current();if(!w)return;
+  if(!('speechSynthesis' in window)){$('hint').textContent='Speech is not supported in this browser.';return;}
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(w.word);u.lang='en-US';u.rate=.82;u.pitch=1.02;
+  const voices=window.speechSynthesis.getVoices();
+  const english=voices.find(v=>v.lang.toLowerCase()==='en-us')||voices.find(v=>v.lang.toLowerCase().startsWith('en'));
+  if(english)u.voice=english;
+  window.speechSynthesis.speak(u);
+}
+function resetRange(){position=0;render()}
+function stopVoice(){if('speechSynthesis' in window)window.speechSynthesis.cancel()}
+learnerSelect.addEventListener('change',()=>{stopVoice();loadProfile(learnerSelect.value);resetRange()});
+weekSelect.addEventListener('change',()=>{stopVoice();resetRange()});
+sectionSelect.addEventListener('change',()=>{stopVoice();resetRange()});
+$('speak').addEventListener('click',speak);
+$('next').addEventListener('click',()=>advance(1));
+$('prev').addEventListener('click',()=>advance(-1));
+$('know').addEventListener('click',()=>{
+  const w=current();if(!w)return;
+  learned.add(w.word);review.delete(w.word);persist();
+  if($('mode').value!=='all')position=position%Math.max(1,filter().length);
+  else advance(1);
+  render();
+});
+$('practice').addEventListener('click',()=>{
+  const w=current();if(!w)return;
+  review.add(w.word);learned.delete(w.word);persist();advance(1);render();
+});
+$('mode').addEventListener('change',resetRange);
+$('shuffle').addEventListener('click',()=>{
+  for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}
+  resetRange();
+});
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='SELECT'||e.altKey||e.ctrlKey||e.metaKey)return;
+  if(e.key==='ArrowRight')advance(1);
+  if(e.key==='ArrowLeft')advance(-1);
+  if(e.key===' '){e.preventDefault();speak()}
+});
+try{const last=localStorage.getItem('word-garden-last-learner');if(last==='child2')learnerSelect.value='child2'}catch(e){}
+learnerSelect.addEventListener('change',()=>{try{localStorage.setItem('word-garden-last-learner',learnerSelect.value)}catch(e){}});
+loadProfile(learnerSelect.value);render();
 </script>
 </body>
 </html>
